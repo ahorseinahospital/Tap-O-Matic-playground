@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fox Tail — emulator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- The module: Fox-Tail.png panel with interactive controls overlaid.
+         The PNG is cropped tight to the panel (1161 x 1226), so 0%/100% =
+         panel edges. Positions are percentages of the panel, so they scale
+         with it. Tweak left/top/height/width in the style below to nudge a
+         control over its real panel location.
+         (PNG is rendered from panel/Fox-Tail.svg — if the panel art changes,
+         regenerate with:  python3 emulator/render_panel.py) -->
+    <div class="module">
+      <div class="panel" id="panel">
+
+        <!-- LEVEL SLIDERS (DRY + 8): slider 1 is inharmonicity, 2..9 are the
+             band gains (and, above half travel, each band's fill).
+             The 9 column x-positions below are reused by the pots. -->
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp0" data-label="Slider 1 — inharmonicity" style="left:6.4%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp1" data-label="Slider 2 — band 1 gain + fill" style="left:17.3%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp2" data-label="Slider 3 — band 2 gain + fill" style="left:28.2%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp3" data-label="Slider 4 — band 3 gain + fill" style="left:39.1%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp4" data-label="Slider 5 — band 4 gain + fill" style="left:50.0%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp5" data-label="Slider 6 — band 5 gain + fill" style="left:60.7%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp6" data-label="Slider 7 — band 6 gain + fill" style="left:71.5%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp7" data-label="Slider 8 — band 7 gain + fill" style="left:82.4%; top:22%; height:28%;" />
+        <input class="vslider" type="range" min="0" max="1" step="0.001" value="0"
+               data-id="amp8" data-label="Slider 9 — band 8 gain + fill" style="left:93.1%; top:22%; height:28%;" />
+
+        <!-- TINY POTS (the old BAL/pan row) — aligned to the slider columns
+             above. 1 = spectral shift, 2 = fine tune, 3 = spread, 4..9 = each
+             band's fill order. No longer pan; the spread is global now. -->
+        <div class="tiny-pot" data-id="pan0" data-label="Pot 1 — spectral shift (±1 octave)"
+             data-min="-1" data-max="1" data-value="0" style="left:6.9%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan1" data-label="Pot 2 — fine tune (±1 semitone)"
+             data-min="-1" data-max="1" data-value="0" style="left:17.8%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan2" data-label="Pot 3 — stereo spread"
+             data-min="-1" data-max="1" data-value="0" style="left:28.7%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan3" data-label="Pot 4 — band 3 fill order (HP..LP)"
+             data-min="-1" data-max="1" data-value="0" style="left:39.6%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan4" data-label="Pot 5 — band 4 fill order (HP..LP)"
+             data-min="-1" data-max="1" data-value="0" style="left:50.5%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan5" data-label="Pot 6 — band 5 fill order (HP..LP)"
+             data-min="-1" data-max="1" data-value="0" style="left:61.2%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan6" data-label="Pot 7 — band 6 fill order (HP..LP)"
+             data-min="-1" data-max="1" data-value="0" style="left:72.0%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan7" data-label="Pot 8 — band 7 fill order (HP..LP)"
+             data-min="-1" data-max="1" data-value="0" style="left:82.9%; top:54%;"></div>
+        <div class="tiny-pot" data-id="pan8" data-label="Pot 9 — band 8 fill order (HP..LP)"
+             data-min="-1" data-max="1" data-value="0" style="left:93.6%; top:54%;"></div>
+
+        <!-- LARGER KNOBS. TIME is wired (fundamental); the rest are unassigned. -->
+        <div class="knob" data-id="knob1" data-label="Knob 1 — pitch"
+             data-min="20" data-max="200" data-log="1" data-value="63"
+             style="left:11%; top:66%;"></div>
+        <div class="knob" data-id="knob2" data-label="Knob 2 — window start"
+             data-min="0" data-max="1" data-value="0" style="left:30.5%; top:66%;"></div>
+        <div class="knob" data-id="knob3" data-label="Knob 3 — window width"
+             data-min="0" data-max="1" data-value="0" style="left:50%; top:66%;"></div>
+        <div class="knob" data-id="knob4" data-label="Knob 4 — cluster: partials/cluster | shepard: phi"
+             data-min="0" data-max="1" data-value="0" style="left:69.5%; top:66%;"></div>
+        <div class="knob" data-id="knob5" data-label="Knob 5 — cluster: density | shepard: window gain"
+             data-min="0" data-max="1" data-value="0" style="left:89%; top:66%;"></div>
+
+        <!-- SWITCHES (two-position). Positioned roughly over the panel toggles. -->
+        <div class="switch" data-id="switch1"
+             data-label="Switch 1 — shaper mode" data-states="CLUSTER,SHEPARD" data-value="0"
+             style="left:20.85%; top:71.3%;"></div>
+        <div class="switch" data-id="switch2"
+             data-label="Switch 2 — spectral tilt" data-states="DARK,BRIGHT" data-value="0"
+             style="left:79.7%; top:71.3%;"></div>
+      </div>
+
+      <!-- Jack-type legend, tucked into the space below the (shorter) panel. -->
+      <div class="legend">
+        <div class="legend-title">What each jack accepts</div>
+        <div class="legend-item">
+          <span class="swatch cv"></span>
+          <div><b>Analog CV in</b> (bipolar) — continuous voltage summed into the
+          panel control. Jacks still carry their delay-era legends: <b>DRY</b> and
+          <b>1–8</b> are the nine slider CVs (inharmonicity, then the 8 bands);
+          <b>TIME</b> is pitch (calibrated 1V/oct); <b>SPREAD</b> and
+          <b>FEEDBACK</b> are the shaper window's start and width; <b>HPF</b> and
+          <b>LPF</b> are the two per-mode shaper params.</div>
+        </div>
+        <div class="legend-item">
+          <span class="swatch gate"></span>
+          <div><b>Gate / trigger in</b> — the GATE jack. Digital on/off only:
+          clock, sync, trigger; cannot read analog pitch. High selects ODD ONLY,
+          low (unpatched) is all partials.</div>
+        </div>
+        <div class="legend-item">
+          <span class="swatch audio"></span>
+          <div><b>Audio in</b> — IN L / IN R (line level; unused by Fox Tail).</div>
+        </div>
+        <div class="legend-item">
+          <span class="swatch out"></span>
+          <div><b>Audio out</b> — OUT L / OUT R (oscillator output).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Host-only controls (not on the hardware): styled separately. -->
+    <aside class="host">
+      <h1>Fox Tail <span>emulator</span></h1>
+
+      <section class="strip">
+        <label>Master volume (emulator only)</label>
+        <input class="hslider" type="range" min="0" max="1" step="0.001" value="0.7"
+               data-id="master" data-label="Master volume" />
+      </section>
+
+      <section class="strip">
+        <label>Fundamental</label>
+        <input class="hslider" type="range" min="20" max="200" step="1" value="63"
+               data-id="knob1" data-label="Knob 1 — pitch" data-mirror="1" />
+        <div class="readout"><span id="freq-readout">63</span> Hz</div>
+      </section>
+
+      <section class="strip">
+        <label>Band levels (LEDs)</label>
+        <div class="ledrow"><div class="led"><i id="led0"></i></div><div class="led"><i id="led1"></i></div><div class="led"><i id="led2"></i></div><div class="led"><i id="led3"></i></div><div class="led"><i id="led4"></i></div><div class="led"><i id="led5"></i></div><div class="led"><i id="led6"></i></div><div class="led"><i id="led7"></i></div><div class="led"><i id="led8"></i></div></div>
+      </section>
+
+      <section class="strip">
+        <label>Unassigned controls (not wired)</label>
+        <div id="unassigned" class="unassigned"></div>
+      </section>
+
+      <p class="hint">Sliders 2–9 are 8 geometric bands of a 96-partial bank: over
+      their whole travel they set the band's level, and above half they also fill
+      it in — so all sliders at half is a skeleton comb of eight partials. Pots 4–9
+      choose each band's fill order (CCW highpass → centre bandpass → CW lowpass).
+      Pot 1 slides the whole spectral shape ±1 octave, pot 2 is fine tune, pot 3 is
+      stereo spread. The four right-hand knobs drive the shaper — CLUSTER pulls
+      partials toward their cluster start, SHEPARD slides them toward the next
+      partial up. See docs/claude/control-maps.md.</p>
+    </aside>
+  </div>
+
+  <!-- Partial viewer — drawn from /partials, i.e. the engine's own per-partial
+       state. X = frequency (log), Y = amplitude (dB), colour = pan. -->
+  <section class="inputs" id="partials-panel">
+    <div class="inputs-head">
+      <h2>Partials</h2>
+      <span class="badge" id="partial-count">—</span>
+    </div>
+    <canvas id="partials-canvas"></canvas>
+    <div class="hint">Shaded band = shaper window (SPREAD/FEEDBACK). Dashed blue =
+      one marker per slider — bands are geometric, ~0.8 octave each, not true octaves.
+      Red dashes = Nyquist; partials past it fade out and show as faint ticks.
+      Colour is pan: blue left, red right. Gaps in the comb are the sliders' fill
+      and the pots' fill order, not missing partials — silent ones are still rendered.</div>
+  </section>
+
+  <!-- ===================================================================
+       CV INPUT SOURCES — one card per param CV jack (+ GATE), generated by
+       labels.js. All five are live: pitch (V/OCT) plus the four shaper knobs,
+       each summing into its knob and clamped. GATE is still a placeholder.
+       =================================================================== -->
+  <section class="inputs">
+    <div class="inputs-head">
+      <h2>CV Input Sources</h2>
+      <span class="badge">all live — pitch + the four shaper knobs</span>
+    </div>
+    <div class="incard-row" id="cv-cards"></div>
+  </section>
+
+  <!-- Slider CV inputs — one per slider (1–9). Live: each source (osc/env)
+       sums into its slider value (clamped). Titles track the slider labels. -->
+  <section class="inputs" id="slider-cv-panel">
+    <div class="inputs-head">
+      <h2>Slider CV inputs</h2>
+      <span class="badge">live — sums into each slider</span>
+    </div>
+    <div class="incard-row" id="slider-cv-cards"></div>
+  </section>
+
+  <!-- Panel label editor — populated by labels.js from controls.json + the SVG.
+       Editing a field + Enter renames that label in the SVG and re-renders. -->
+  <section class="labels" id="labels-editor"></section>
+
+  <!-- Hover status bar -->
+  <footer class="statusbar" id="statusbar">&nbsp;</footer>
+
+  <!-- Load order: app.js (core + helpers + FT), sources.js (CV cards, sets
+       FT.sources), labels.js (model + editor, orchestrates init). -->
+  <script src="app.js"></script>
+  <script src="sources.js"></script>
+  <script src="labels.js"></script>
+  <script src="partials.js"></script>
+</body>
+</html>
