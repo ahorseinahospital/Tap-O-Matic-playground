@@ -14,6 +14,7 @@
       --accent2: #3d7ea6;
       --accent3: #7a9e5a;
       --warn: #b8752a;
+      --warn-bg: #911d1d;
       --card: #fff;
       --code: #f2ece7;
     }
@@ -28,6 +29,7 @@
         --accent2: #6fb2d8;
         --accent3: #9fc47a;
         --warn: #e0a75c;
+        --warn-bg: #911d1d;
         --card: #1e1b16;
         --code: #241f1a;
       }
@@ -240,7 +242,8 @@
     }
 
     .warn {
-      border-color: var(--warn)
+      border-color: var(--warn);
+      background-color: var(--warn-bg)
     }
 
     .tip {
@@ -387,6 +390,10 @@
     </figcaption>
   </figure>
 
+  <p class="warn">
+    Make sure you <a href="#cv">calibrate</a> the unit the first time you flash the firmware. It'll give you tracking and proper functioning knobs!
+  </p>
+
   <nav class="toc">
     <b>Contents</b>
     <ol start="0">
@@ -396,7 +403,7 @@
       <li><a href="#fade">FILL ORDER: where each band fills from</a></li>
       <li><a href="#inharm">INHARM</a></li>
       <li><a href="#globalpots">FORMANT and FINE</a></li>
-      <li><a href="#pitch">COARSE &amp; V/OCT</a></li>
+      <li><a href="#pitch">COARSE, FINE and V/OCT</a></li>
       <li><a href="#tilt">BRIGHT/DARK &amp; ODD ONLY</a></li>
       <li><a href="#window">The shaper window</a></li>
       <li><a href="#modes">CLUSTER vs SHEPARD</a></li>
@@ -756,23 +763,23 @@
   <p>Paired with the skeleton comb (all sliders at half) this is the single most musical gesture on the
     panel: eight chosen harmonics scanning up and down the series over a pitch that never moves.</p>
 
-  <h3>FINE — ±1 semitone</h3>
-  <p>COARSE covers 4 octaves in one sweep, which makes it hard to tune by hand. FINE adds
-    ±1 semitone, center = in tune, clockwise = sharp. The firmware snaps a small deadzone at noon,
-    for which there is no real reason at the moment. It will either get useful or get deleted in the future.</p>
+  <h2 id="pitch">6 · COARSE, FINE and V/OCT</h2>
 
-  <h2 id="pitch">6 · COARSE and V/OCT</h2>
+  <p><b>COARSE</b> sets the fundamental over <b>12.25 Hz – 196 Hz</b>, or G-1 to G3, exponentially — four octaves.
+    The range is deliberately low: this is the root of an additive bank, and the partials, not the root, carry the top end.</p>
 
-  <p><b>COARSE</b> sets the fundamental over <b>12.5 Hz – 200 Hz</b>, exponentially — four octaves, so the
-    knob's center lands on the geometric mean (50 Hz), not the arithmetic one. The range is deliberately
-    low: this is the root of an additive bank, and the partials, not the root, carry the top end.</p>
+  <p><b>FINE</b> — ±1 semitone. Provided the unit is <a href="#cv">calibrated</a>, FINE at center and COARSE CCW should get you fairly close to G,
+    so you have a reference point and don't need to tune.
+    <p class="tip">FINE has a small deadzone at noon. Not that it matters much - Tap-o-Matic
+    has a physical center detent on that knob by default. But if you happen to purpose build for the Foxtail you might opt for having detents on different knobs,
+    e.g. not having one on the FINE. That deadzone is a safety net for that.</p>
 
   <p>The <b>V/O</b> jack is a calibrated 1 V/octave input, summed with COARSE and FINE. On a calibrated
     unit tracking holds within a few cents over two octaves. There is <b>no upper clamp</b> on the
     resulting fundamental — past Nyquist the partials fade out on their own, which tracks honestly instead
     of parking the note inaudibly high. The floor is 0.001 Hz, which is to say there isn't one either: a
     negative pitch CV takes the whole bank down to LFO rates, and −5 V (the input's electrical limit) puts
-    f0 at 0.39 Hz.</p>
+    f0 at 0.38 Hz.</p>
 
   <div class="warn"><b>Nyquist is real.</b> At 48 kHz and f0 = 220 Hz the whole 96-partial bank fits
     under Nyquist; at 880 Hz only 27 partials do, and the top five sliders have nothing left to play.
@@ -1013,7 +1020,7 @@
     </svg>
   </figure>
 
-  <div class="warn"><b>Cluster is the loud mode</b>. There's a bit of volume compensation to the loudest Cluster patches
+  <div class="tip"><b>Cluster is the loud mode</b>. There's a bit of volume compensation to the loudest Cluster patches
     (when all partials go low and it sounds like a rumble anyway) — see
     <a href="#gain">Levels &amp; gain compensation</a>. If you build a version with the compensation
     defeated (<code>NO_NORM=1</code>), the density knob swings the level by many dB. It'll hit the limiter and probably sound terrible.
@@ -1286,20 +1293,24 @@
   </table>
 
   <h3>Calibration</h3>
-  <p>Three steps, one stored record. Power up with <b>INHARM fully up + left switch up + right switch
+  <p>Three steps, one stored record. Make sure USB cable is unplugged. Power up with <b>INHARM fully up + left switch up + right switch
     down</b>, then flip the right switch to capture each step:</p>
   <ol>
     <li>1 V patched to V/OCT</li>
     <li>3 V patched to V/OCT</li>
-    <li><b>everything unpatched</b> — this captures the CV jack nulls</li>
+    <li>0 V and everything else unpatched — this captures the CV jack nulls</li>
   </ol>
-  <p>Step 3 matters as much as the pitch fit: the summing jacks idle around −0.02 rather than 0, and
-    since the firmware adds jack to knob and clamps, that bias ate the top 2.5% of every affected
+
+  <p class="tip">You can use your sequencer for generating these voltages, just find which state sends 0V and add 1 and 3 octaves.
+  If you're using a keyboard, there's a good chance it's a C note, etc. Make sure you actively send 0v rather than leave V/O unpatched for the third step, the difference is real!</p>
+
+  <p>Step 3 matters for other jacks too: the summing jacks idle around −0.02 rather than 0, and
+    since the firmware adds jack to knob, that bias eats the top 2.5% of every affected
     control's travel — which is why an uncalibrated unit can't quite reach a single cluster at full CW.</p>
 
   <div class="warn"><b>Bench-testing gotcha:</b> on USB power alone the Daisy's analog domain is dead —
     CV inputs rail at ~0.99 and audio is silent, while the pots and sliders keep working normally. Always
-    test CV and audio with rack power connected (USB may stay attached for the serial log).
+    test CV and audio with rack power connected (USB may stay attached for the serial log). Plugged USB messes with the tuning and introduces distortion!
   </div>
 
   <h3>Limits</h3>
@@ -1599,7 +1610,7 @@
       </tr>
       <tr>
         <td class="k">COARSE range</td>
-        <td>12.5 – 200 Hz (4 octaves, exponential)</td>
+        <td>12.25 – 196 Hz (G-1 – G3, 4 octaves, exponential; ends snap to the anchor)</td>
       </tr>
       <tr>
         <td class="k">Effective f0</td>

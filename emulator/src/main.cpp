@@ -144,7 +144,7 @@ constexpr int kFirstShapeBand = 2;
 std::atomic<float> g_slider[kNumSliders];       // raw slider values 0..1
 std::atomic<float> g_pot[kNumSliders];          // raw pot values, -1..1
 std::atomic<float> g_knob[kNumShaperKnobs];     // the four shaper knobs, 0..1
-std::atomic<float> g_pitchHz{63.f};             // knob 1 -> fundamental (20..200 Hz)
+std::atomic<float> g_pitchHz{63.f};             // knob 1 -> fundamental (12.25..196 Hz)
 std::atomic<float> g_master{0.7f};              // host master volume
 std::atomic<int>   g_mode{foxtail::kModeCluster}; // switch 1: cluster/shepard
 std::atomic<int>   g_tilt{0};                     // switch 2: 0 = dark (1/r), 1 = bright

@@ -160,7 +160,7 @@ function fmt(v) {
 // Keep the panel TIME knob and the host "Fundamental" slider in agreement.
 const freqReadout = document.getElementById("freq-readout");
 function mirrorFreq(hz) {
-  if (freqReadout) freqReadout.textContent = hz.toFixed(0);
+  if (freqReadout) freqReadout.textContent = hz.toFixed(1); // 12.2 at the low anchor, not 12
   document
     .querySelectorAll('[data-id="knob1"][data-mirror]')
     .forEach((m) => (m.value = hz));

@@ -196,8 +196,10 @@ struct Controls
     // stiff-string style (piano at low settings, bell/metallic high). The k^2
     // law keeps low partials nearly pure at any setting on its own.
     float inharm = 0.f;
-    // Pot 1: fine tune in semitones, -1..+1 (0 = in tune). Knob 1 spans 3.3
-    // octaves over one sweep, still too coarse to tune by hand.
+    // Pot 1: fine tune in semitones, -1..+1 (0 = in tune). Knob 1 spans four
+    // octaves over one sweep, far too coarse to tune by hand. The host's centre
+    // deadzone is what makes an exact zero reachable, and with it the pitch
+    // anchor at either end of knob 1.
     float fineTune = 0.f;
 
     float pitchHz = 220.f; // knob 1: fundamental in Hz

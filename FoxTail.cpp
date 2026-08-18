@@ -119,18 +119,25 @@ static constexpr int kNumLeds    = 9; // one more than kNumBands (LED 1 = inharm
 #endif
 
 // Coarse pitch range. Exponential map: f = kFreqMin * (kFreqMax/kFreqMin)^t, so
-// the knob's centre lands on the GEOMETRIC mean — 50 Hz over 12.5..200, not 106.
-// Four octaves, deliberately narrow: this is a fundamental for an additive bank,
-// and the partials, not the root, carry the top of the range. The bottom is
-// below audio so a negative V/OCT CV can reach LFO rates (−5 V = 0.39 Hz).
+// the knob's centre lands on the GEOMETRIC mean — 49 Hz over 12.25..196.
+// Both ends are G (G-1 and G3, four octaves apart) and the V/oct fit puts a
+// patched 0 V on the knob's own frequency, so the knob at either stop plays a
+// sequencer in 12-TET with nothing to tune by ear. Deliberately narrow: this is
+// a fundamental for an additive bank, and the partials, not the root, carry the
+// top of the range. The bottom is below audio so a negative V/OCT CV can reach
+// LFO rates (−5 V = 0.38 Hz).
 // Edit the two ends; the span derives. const, not constexpr: <cmath> is not
 // constexpr in C++14, but both compilers fold a log2 of constants to an
 // immediate, so the derivation costs nothing at runtime.
-static constexpr float kFreqMin      = 12.5f;
-static constexpr float kFreqMax      = 200.0f;
+static constexpr float kFreqMin      = 12.2499f;
+static constexpr float kFreqMax      = 196.0f;
 static const float     kPitchOctaves = std::log2(kFreqMax / kFreqMin);
 static constexpr float kMaster  = 0.7f;
 static constexpr float kFineDeadzone = 0.05f; // fine tune centre snap, in travel
+// Coarse endpoint snap. The G anchor is only worth having if the ends are exact,
+// and a pot at its stop reads near the rail, not on it; 1 cent is 0.0002 of this
+// travel, so ADC noise alone is worth cents. Costs 19 cents of range at each end.
+static constexpr float kPitchSnap = 0.004f;
 
 // QUIRKS=1 gives the spectral shift pot a two-hour centre detent in software.
 // A pot with a mechanical detent does not need it; this unit's has none, and
@@ -461,10 +468,13 @@ void audioCallback(AudioHandle::InputBuffer  /*in*/,
         controls.bandShape[b] = clampf(PanPot(b + 1), 0.0f, 1.0f);
 
     // Knob 1: pitch, exponential sweep (constant octaves per degree of
-    // rotation, so the detent sits at the geometric mean of the range, not the
+    // rotation, so noon sits at the geometric mean of the range, not the
     // arithmetic one). V/OCT jack adds octaves through the stored calibration
-    // (scale/offset are in semitones, hence /12).
+    // (scale/offset are in semitones, hence /12). No null subtraction: the fit
+    // zeroes a patched 0 V, which is the anchor worth having.
     float t          = clampf(BigKnob(0), 0.0f, 1.0f);
+    if (t < kPitchSnap) t = 0.0f;
+    else if (t > 1.0f - kPitchSnap) t = 1.0f;
     // exp2f, not powf: the base is constant, so b^t == exp2(t*log2(b)) exactly,
     // and powf is the most expensive call in the block path (it is exp(t*log(b))
     // internally, with the log recomputed every callback).
