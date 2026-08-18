@@ -7,7 +7,7 @@
 # default so a bare `make` builds exactly what it always did.
 #
 #   make                  -> Tap-O-Matic delay     (Tap-O-Matic.bin)  [default]
-#   make MODULE=foxtail   -> Fox Tail oscillator    (Fox-Tail.bin)
+#   make MODULE=foxtail   -> Foxtail oscillator    (Foxtail.bin)
 # ---------------------------------------------------------------------------
 MODULE ?= tapomatic
 
@@ -18,7 +18,7 @@ ifeq ($(MODULE),tapomatic)
   # build flags are not something to go poking at.
   OPT        = -Os
 else ifeq ($(MODULE),foxtail)
-  TARGET     = Fox-Tail
+  TARGET     = Foxtail
   MODULE_SRC = FoxTail.cpp
   # SERIAL_LOG=1 turns on the once-a-second status line (CV values, V/oct, CPU
   # load) without editing FoxTail.cpp and remembering to revert it.

@@ -1,6 +1,6 @@
 #pragma once
 //
-// Fox Tail — additive sine oscillator DSP.
+// Foxtail — additive sine oscillator DSP.
 //
 // This header is the "seam": pure DSP, no libDaisy, no hardware types. It is
 // included by BOTH the firmware (FoxTail.cpp fills Controls from the Daisy

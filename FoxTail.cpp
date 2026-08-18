@@ -1,5 +1,5 @@
 //
-// Fox Tail — additive sine oscillator firmware for the Daisy Patch SM.
+// Foxtail — additive sine oscillator firmware for the Daisy Patch SM.
 //
 // This file is the "hard stuff": hardware bootstrap + audio plumbing. It is
 // deliberately thin. ALL synthesis lives in the shared, hardware-free
@@ -223,7 +223,7 @@ foxdiag::Diag diag; // all methods compile to nothing without FOXTAIL_SERIAL_LOG
 // state, no bus arbitration, so every sample costs the same. Default .bss goes
 // to cached AXI SRAM, where refills burst — and bursty is what the whine feeds
 // on. Verify placement after linker changes:
-//   arm-none-eabi-nm build/Fox-Tail.elf | grep -w osc   -> must be 0x2000xxxx
+//   arm-none-eabi-nm build/Foxtail.elf | grep -w osc   -> must be 0x2000xxxx
 foxtail::FoxTailOsc osc DTCM_MEM_SECTION;
 foxtail::Controls   controls;
 

@@ -1,4 +1,4 @@
-// Fox Tail serial diagnostics. Firmware-only; the engine and emulator never
+// Foxtail serial diagnostics. Firmware-only; the engine and emulator never
 // see this file. With FOXTAIL_SERIAL_LOG off every method is an empty inline,
 // so the callback keeps the exact instruction sequence of a listening build.
 //

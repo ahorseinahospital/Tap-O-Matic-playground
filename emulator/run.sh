@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build (if needed) and launch the Fox Tail emulator, then open the UI.
+# Build (if needed) and launch the Foxtail emulator, then open the UI.
 #
 #   ./emulator/run.sh
 #
@@ -33,5 +33,5 @@ fi
 # Open the browser shortly after the server comes up.
 ( sleep 1; command -v open >/dev/null && open "$URL" || true ) &
 
-echo "Fox Tail emulator -> $URL   (Ctrl-C to stop)"
+echo "Foxtail emulator -> $URL   (Ctrl-C to stop)"
 exec "$BIN"

@@ -1,4 +1,4 @@
-// Fox Tail emulator — UI glue.
+// Foxtail emulator — UI glue.
 //
 // Sends control changes to the native audio app as tiny GET hits
 // (/ctl?id=..&v=..) and polls meters back. No audio here — the browser only

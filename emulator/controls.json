@@ -1,7 +1,7 @@
 {
   "_comment": [
     "Ties emulator control ids to the panel art. Each value is the id of the",
-    "<tspan> in panel/Fox-Tail.svg whose text is that control's label. The SVG",
+    "<tspan> in panel/Foxtail.svg whose text is that control's label. The SVG",
     "is the source of truth for label text: the emulator reads labels from it,",
     "and a rename rewrites the tspan (matched by id) then re-renders the PNG.",
     "Renaming by tspan id (not text) avoids the duplicate-label ambiguity",

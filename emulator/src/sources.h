@@ -1,6 +1,6 @@
 #pragma once
 //
-// Fox Tail emulator — modulation sources (envelopes, oscillators, ...).
+// Foxtail emulator — modulation sources (envelopes, oscillators, ...).
 //
 // These stand in for the external Eurorack modules you'd patch into the CV
 // jacks on the real hardware. They exist ONLY in the emulator: the firmware

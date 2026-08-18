@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static cost meter for the Fox Tail engine's hot loops.
+"""Static cost meter for the Foxtail engine's hot loops.
 
 control-maps.md rule 5 says estimates lie and objdump doesn't. This runs the
 objdump: it compiles foxtail_dsp.h alone for the H750 with the firmware's real
@@ -173,7 +173,7 @@ def main():
             base = json.load(f).get("loops", {})
     old_total = base.pop("__total__", None)
 
-    print("Fox Tail hot-loop cost  (-O3, cortex-m7"
+    print("Foxtail hot-loop cost  (-O3, cortex-m7"
           + ("".join(" -D" + d for d in args.defines)) + ")\n")
     print("  %-26s %7s %7s %8s  %s"
           % ("loop", "insns", "delta", "sqrt/div", "source lines"))

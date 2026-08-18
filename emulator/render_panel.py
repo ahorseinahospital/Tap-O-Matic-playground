@@ -26,8 +26,8 @@ from PIL import Image, ImageChops
 
 # ---- Config (tweak freely) -------------------------------------------------
 REPO         = Path(__file__).resolve().parent.parent
-SRC_SVG      = REPO / "panel" / "Fox-Tail.svg"
-DST_PNG      = REPO / "emulator" / "web" / "Fox-Tail.png"
+SRC_SVG      = REPO / "panel" / "Foxtail.svg"
+DST_PNG      = REPO / "emulator" / "web" / "Foxtail.png"
 BG_COLOR     = "#000000"     # background behind the panel (rsvg color + trim)
 RENDER_WIDTH = 2000          # output width in px before cropping (higher = sharper)
 

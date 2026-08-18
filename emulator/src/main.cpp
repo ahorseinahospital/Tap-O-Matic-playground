@@ -1,5 +1,5 @@
 //
-// Fox Tail emulator — native audio + web UI host.
+// Foxtail emulator — native audio + web UI host.
 //
 //   * Audio: miniaudio -> CoreAudio, runs the real foxtail::FoxTailOsc DSP.
 //   * UI:    cpp-httplib serves emulator/web/* on localhost:4343; the browser
@@ -337,7 +337,7 @@ bool setControl(const std::string& id, float value) {
 // from it (GET /svg-labels) and rename by rewriting one <tspan> matched by its
 // id, then re-rendering the PNG (POST /label). Paths are relative to WEB_DIR
 // (=.../emulator/web), so they hold regardless of the process CWD.
-std::string svgPath()      { return std::string(WEB_DIR) + "/../../panel/Fox-Tail.svg"; }
+std::string svgPath()      { return std::string(WEB_DIR) + "/../../panel/Foxtail.svg"; }
 std::string renderScript() { return std::string(WEB_DIR) + "/../render_panel.py"; }
 
 std::string readFile(const std::string& path) {
@@ -442,15 +442,15 @@ int main() {
 
     ma_device device;
     if (ma_device_init(nullptr, &cfg, &device) != MA_SUCCESS) {
-        std::fprintf(stderr, "Fox Tail: failed to open audio device\n");
+        std::fprintf(stderr, "Foxtail: failed to open audio device\n");
         return 1;
     }
     if (ma_device_start(&device) != MA_SUCCESS) {
-        std::fprintf(stderr, "Fox Tail: failed to start audio device\n");
+        std::fprintf(stderr, "Foxtail: failed to start audio device\n");
         ma_device_uninit(&device);
         return 1;
     }
-    std::printf("Fox Tail emulator: audio running (%s, %d Hz)\n",
+    std::printf("Foxtail emulator: audio running (%s, %d Hz)\n",
                 ma_get_backend_name(device.pContext->backend),
                 (int)device.sampleRate);
 
@@ -542,7 +542,7 @@ int main() {
         res.set_content(r, "text/plain");
     });
 
-    std::printf("Fox Tail emulator: UI at http://localhost:%d\n", kPort);
+    std::printf("Foxtail emulator: UI at http://localhost:%d\n", kPort);
     srv.listen("localhost", kPort); // blocks
 
     ma_device_uninit(&device);

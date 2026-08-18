@@ -59,7 +59,7 @@
 
   function reloadPanel() {
     const p = document.getElementById("panel");
-    if (p) p.style.backgroundImage = `url("Fox-Tail.png?t=${Date.now()}")`;
+    if (p) p.style.backgroundImage = `url("Foxtail.png?t=${Date.now()}")`;
   }
 
   async function rename(tspan, text) {

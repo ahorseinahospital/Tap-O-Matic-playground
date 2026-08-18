@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fox Tail — user manual</title>
+  <title>Foxtail — user manual</title>
   <style>
     :root {
       --bg: #faf7f4;
@@ -345,11 +345,11 @@
 <body>
 <div class="wrap">
 
-  <h1>Fox Tail<span class="sub">96-partial additive oscillator · Daisy Patch SM · user manual</span></h1>
+  <h1>Foxtail<span class="sub">96-partial additive oscillator · Daisy Patch SM · user manual</span></h1>
 
   <figure>
     <div class="panelwrap">
-      <img src="../emulator/web/Fox-Tail.png" alt="Fox Tail front panel">
+      <img src="../emulator/web/Foxtail.png" alt="Foxtail front panel">
       <!-- hotspots: left%/top% measured against the 1161×1226 panel render -->
       <a class="hot" style="left:7.1%;top:13.1%" href="#cv">1</a>
       <a class="hot" style="left:7.1%;top:36%" href="#inharm">2</a>
@@ -413,7 +413,7 @@
     </ul>
   </nav>
   <h2 id="intro">0 · Foreword and slop warning</h2>
-  <p class="lede">Fox Tail is an alternative firmware for the Tap-O-Matic module by Harry Richardson, which is in turn based on the OAM 
+  <p class="lede">Foxtail is an alternative firmware for the Tap-O-Matic module by Harry Richardson, which is in turn based on the OAM 
     <a href="https://oamodular.org/products/time-machine">Time Machine</a>.
     It is therefore also open source and the code can be found <a href="https://github.com/ahorseinahospital/Tap-O-Matic-playground">here</a>.
     It is largely based on the harmonic engine from Arturia's <a href="https://www.arturia.com/products/software-instruments/pigments/overview">Pigments</a>: 
@@ -433,7 +433,7 @@
   </p>
   <h2 id="overview">1 · How it makes sound</h2>
 
-  <p>Fox Tail is a stereo additive oscillator. Ninety-six sine oscillators run in parallel.
+  <p>Foxtail is a stereo additive oscillator. Ninety-six sine oscillators run in parallel.
     The panel is a set of tools for choosing which of them sound,
     how loud, at what frequency ratio, and where in the stereo field. Partial <i>k</i> normally sits at
     <code>k × f0</code> — partial 1 is the fundamental, partial 2 the octave, and so on.
@@ -458,7 +458,7 @@
     </tr>
     <tr>
       <td class="k">Nothing you can hear directly</td>
-      <td>the two jacks marked UNUSED — Fox Tail never reads them</td>
+      <td>the two jacks marked UNUSED — Foxtail never reads them</td>
     </tr>
   </table>
 
@@ -1226,7 +1226,7 @@
   </ul>
 
   <div class="note"><b>Panel note:</b> <code>OUT LEFT</code> and <code>OUT RIGHT</code> are correct as
-    printed. Fox Tail is stereo out only; the pair of jacks marked <code>UNUSED</code> are the delay
+    printed. Foxtail is stereo out only; the pair of jacks marked <code>UNUSED</code> are the delay
     firmware's audio inputs, and this firmware never reads them — doing so is against the module's noise
     budget.
   </div>
@@ -1512,11 +1512,11 @@
   <h2 id="appendix">Appendix — under the hood</h2>
 
   <p>None of this is needed to play the module. It is here because the numbers are real and
-    measured, and because knowing where the headroom went explains why Fox Tail is quiet.</p>
+    measured, and because knowing where the headroom went explains why Foxtail is quiet.</p>
 
   <h3 id="gain">A · Levels and gain compensation</h3>
 
-  <p>Fox Tail runs a <b>fixed headroom budget</b> — the Hammond drawbar answer — rather than dynamic
+  <p>Foxtail runs a <b>fixed headroom budget</b> — the Hammond drawbar answer — rather than dynamic
     normalization. Nothing ducks when you push a slider up. Three fixed pieces of gain staging keep that
     honest:</p>
 
@@ -1524,7 +1524,7 @@
   <p>A constant 0.356 sits in every band gain, sized against the worst case of <em>all eight sliders at
     maximum</em>. Because the partials start at random phases, a bank sums as √N — so an ordinary two- or
     three-band patch sits well below the case being protected. All sliders up lands at −13.0 dBFS RMS on
-    the DARK slope (0.472 peak); the skeleton comb, all sliders at half, is −20.0 dBFS. <b>Fox Tail is a
+    the DARK slope (0.472 peak); the skeleton comb, all sliders at half, is −20.0 dBFS. <b>Foxtail is a
       quiet module by design; expect to gain it up downstream.</b></p>
 
   <h4>2 · Tilt compensation</h4>
@@ -1662,8 +1662,8 @@
 
   <hr>
   <p class="small" style="color:var(--muted);font-size:.85rem">
-    Fox Tail — a Time Machine descendent. Olivia Artz &gt; Harry Richardson &gt; DivKid Discord &gt; DogsizedDragonflies.<br>
-    Panel art: <code>panel/Fox-Tail.svg</code>. Engine internals and rationale: <code>docs/claude/control-maps.md</code>.
+    Foxtail — a Time Machine descendent. Olivia Artz &gt; Harry Richardson &gt; DivKid Discord &gt; DogsizedDragonflies.<br>
+    Panel art: <code>panel/Foxtail.svg</code>. Engine internals and rationale: <code>docs/claude/control-maps.md</code>.
   </p>
 
 </div>

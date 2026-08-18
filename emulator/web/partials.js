@@ -1,4 +1,4 @@
-// Fox Tail emulator — partial viewer.
+// Foxtail emulator — partial viewer.
 //
 // Draws where the partials actually are. Every number here comes from
 // /partials, which the audio thread publishes straight out of the running
