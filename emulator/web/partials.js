@@ -15,7 +15,10 @@
 
   const F_MIN = 20;
   const F_MAX = 24000;
-  const REF = 0.25; // amplitude that reads as full scale on the plot
+  // Full scale = the loudest a single partial can get: kHeadroom (0.356) times
+  // the dark tilt's boost (1.41). Anything lower clips the plot before the
+  // slider is up, and the top of a band's travel looks like it does nothing.
+  const REF = 0.5;
   const FLOOR_DB = -72;
 
   const logMin = Math.log(F_MIN);

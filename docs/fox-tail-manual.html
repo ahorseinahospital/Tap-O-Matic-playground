@@ -371,15 +371,15 @@
       <b>1</b> slider CV jacks ·
       <b>2</b> INHARM ·
       <b>3</b> band sliders ×1…×54 ·
-      <b>4</b> SHIFT / FINE / STEREO ·
-      <b>5</b> FADE TILT (fill order) ·
+      <b>4</b> FORMANT / FINE / STEREO ·
+      <b>5</b> FILL ORDER (HP-BP-LP) ·
       <b>6</b> COARSE pitch ·
       <b>7</b> CLUSTER / SHEPARD ·
       <b>8</b> WIN START ·
       <b>9</b> WIN SIZE ·
-      <b>10</b> PHI / CLUSTERS ·
+      <b>10</b> DRIFT / CLUSTERS ·
       <b>11</b> BRIGHT / DARK ·
-      <b>12</b> WIN DUCK / DENSITY ·
+      <b>12</b> DUCK / DENSITY ·
       <b>13</b> ODD ONLY gate ·
       <b>14</b> V/OCT ·
       <b>15</b> stereo out.
@@ -393,9 +393,9 @@
       <li><a href="#intro">Foreword</a></li>
       <li><a href="#overview">How it makes sound</a></li>
       <li><a href="#sliders">The sliders: level &amp; fill</a></li>
-      <li><a href="#fade">FADE TILT: fill order</a></li>
+      <li><a href="#fade">FILL ORDER: where each band fills from</a></li>
       <li><a href="#inharm">INHARM</a></li>
-      <li><a href="#globalpots">SHIFT and FINE</a></li>
+      <li><a href="#globalpots">FORMANT and FINE</a></li>
       <li><a href="#pitch">COARSE &amp; V/OCT</a></li>
       <li><a href="#tilt">BRIGHT/DARK &amp; ODD ONLY</a></li>
       <li><a href="#window">The shaper window</a></li>
@@ -435,7 +435,7 @@
 
   <p>Fox Tail is a stereo additive oscillator. Ninety-six sine oscillators run in parallel.
     The panel is a set of tools for choosing which of them sound,
-    how loud, at what frequency ratio, and where in the stereo fieldPartial <i>k</i> normally sits at
+    how loud, at what frequency ratio, and where in the stereo field. Partial <i>k</i> normally sits at
     <code>k × f0</code> — partial 1 is the fundamental, partial 2 the octave, and so on.
     Every control on the panel does exactly one of four things:</p>
 
@@ -446,11 +446,11 @@
     </tr>
     <tr>
       <td class="k">Which partials sound, and how loud</td>
-      <td>the eight band sliders, the FADE TILT pots, SHIFT, BRIGHT/DARK, ODD ONLY</td>
+      <td>the eight band sliders, the FILL ORDER pots, FORMANT, BRIGHT/DARK, ODD ONLY</td>
     </tr>
     <tr>
       <td class="k">Where the partials sit in frequency</td>
-      <td>COARSE, V/OCT, FINE, INHARM, and the shaper (WIN START, WIN SIZE, PHI/CLUSTERS, DENSITY)</td>
+      <td>COARSE, V/OCT, FINE, INHARM, and the shaper (WIN START, WIN SIZE, DRIFT / CLUSTERS, DENSITY)</td>
     </tr>
     <tr>
       <td class="k">Where they sit in the stereo field</td>
@@ -549,24 +549,18 @@
 
   <h2 id="sliders">2 · The band sliders — level <em>and</em> fill</h2>
 
-  <p>Each of sliders <code>×1…×54</code> does two jobs at once, split across its travel:</p>
+  <p>Sliders behave as follows:</p>
 
   <ul class="tight">
-    <li><b>All the way up from zero:</b> the band's <b>level</b> rises.</li>
-    <li><b>Above the halfway point, additionally:</b> the band <b>fills in</b> — more of its partials
-      start sounding, one at a time, spreading outward from a seed partial.
+    <li><b>All the way up from zero:</b> the band's <b>level</b> rises. Fully up means all partials in the band are at their max volume. The actual possible
+      maximum for each partial of course depends on other knobs.</li>
+    <li><b>Below the halfway point:</b> with TILT either at HP or LP only one partial from the band will sound, highest or lowest respectively.
+      Slider 1 is the exception, because the band only contains the fundamental, so it uses the full range.
+      So Slider 1 fully up, and others at the middle gives you a sparse comb.</li>
+    <li><b>Above the halfway point:</b>
+      Other partials start coming in, according to the TILT. TILT at the HP side means higher partials come first, and vice versa for the LP side. See TILT section for more info.
     </li>
   </ul>
-
-  <p>So all eight sliders parked at half gives you a <b>skeleton comb</b>: exactly eight partials, one per
-    band, each at its band's full level. Push a slider past half and its band thickens up into a full
-    cluster of harmonics. The coupling is deliberate — a band with more partials in it genuinely
-    <em>is</em> louder, so level and count move together and the drawn envelope stays believable at any
-    setting.</p>
-
-  <p>The seed each band grows from is always a real partial, never a point between two, which is what
-    makes “one partial at full level” exact rather than approximate — and what makes SHIFT's center the
-    position where every seed has a partial sitting on it.</p>
 
   <figure class="dia">
     <svg viewBox="0 0 760 200" role="img" aria-label="Slider travel: level below half, fill above half">
@@ -620,17 +614,17 @@
   </figure>
 
   <div class="tip"><b>Practical:</b> to draw a formant-ish hump, set the sliders in an arc and leave the
-    bands you want thin at half. To play “additive organ”, run everything at half and use SHIFT (below)
+    bands you want thin at half. To play “additive organ”, run everything at half and use FORMANT (below)
     to slide the eight chosen harmonics up and down the series.
   </div>
 
   <p>Each slider also has its own CV jack in the top row. The jack is summed with the slider and
     clamped, so a slider parked at zero is opened by CV, and one parked at the top ignores it.</p>
 
-  <h2 id="fade">3 · FADE TILT — where each band fills from</h2>
+  <h2 id="fade">3 · FILL ORDER — where each band fills from</h2>
 
-  <p>The six pots labeled under the <b>FADE TILT (HP-BP-LP)</b> bracket set the <em>fill order</em> for
-    bands <code>×4</code> through <code>×54</code>. The first two bands have no pot: <code>×1</code> is the
+  <p>The six pots labeled under the <b>FILL ORDER (HP-BP-LP)</b> bracket choose where
+    bands <code>×4</code> through <code>×54</code> <em>fill from</em>. The first two bands have no pot: <code>×1</code> is the
     fundamental on its own, so there is no order to choose, and <code>×2</code> (partials 2 and 3) is
     pinned to fill <em>upward</em>, so the bottom of the spectrum always arrives lowest partial first.</p>
 
@@ -748,10 +742,10 @@
     fake. A filter can shape a harmonic spectrum; it cannot make it inharmonic.
   </div>
 
-  <h2 id="globalpots">5 · SHIFT and FINE</h2>
+  <h2 id="globalpots">5 · FORMANT and FINE</h2>
 
-  <h3>SHIFT — slides the drawn shape along the series</h3>
-  <p>SHIFT multiplies the coordinate that both the band envelope <em>and</em> the fill comb are read at,
+  <h3>FORMANT — slides the drawn shape along the series</h3>
+  <p>FORMANT multiplies the coordinate that both the band envelope <em>and</em> the fill comb are read at,
     ±1 octave from center. <b>No partial changes frequency.</b> Only which partials are picked, and how
     loud they are. Turned clockwise the shape moves up the series, counter-clockwise down.</p>
   <p><b>center is genuinely the home position</b>, not just the middle of the travel: it is the one
@@ -764,8 +758,8 @@
 
   <h3>FINE — ±1 semitone</h3>
   <p>COARSE covers 4 octaves in one sweep, which makes it hard to tune by hand. FINE adds
-    ±1 semitone, center = in tune, clockwise = sharp. The firmware snaps a small deadzone at noon, so
-    it's easier to dial in.</p>
+    ±1 semitone, center = in tune, clockwise = sharp. The firmware snaps a small deadzone at noon,
+    for which there is no real reason at the moment. It will either get useful or get deleted in the future.</p>
 
   <h2 id="pitch">6 · COARSE and V/OCT</h2>
 
@@ -830,7 +824,7 @@
   <h2 id="window">8 · The shaper window — WIN START and WIN SIZE</h2>
 
   <p>The two big knobs marked <b>WIN START</b> and <b>WIN SIZE</b> define a movable window over the
-    bank. <b>Partials inside the window get retuned; partials outside stay exactly where they are.</b>
+    bank. <b>Partials inside the window get retuned according to the chosen mode; partials outside stay exactly where they are.</b>
     This is what lets the weird stuff happen without losing the pitch — leave the fundamental outside the
     window and it anchors the note while everything above it goes strange. There's LED feedback when you adjust the window,
     showing you roughly where it lands relative to the bands.</p>
@@ -890,9 +884,9 @@
 
   <h2 id="modes">9 · CLUSTER vs SHEPARD</h2>
 
-  <p>The left-hand switch picks what happens inside the window. The two mode knobs — <b>PHI / CLUSTERS</b>
-    and <b>WIN DUCK / DENSITY</b> — are the only two controls that change meaning, which is why each
-    carries two names on the panel: PHI and WIN DUCK in SHEPARD, CLUSTERS and DENSITY in CLUSTER. Below,
+  <p>The left-hand switch picks what happens inside the window. The two mode knobs — <b>DRIFT / CLUSTERS</b>
+    and <b>DUCK / DENSITY</b> — are the only two controls that change meaning, which is why each
+    carries two names on the panel: DRIFT and DUCK in SHEPARD, CLUSTERS and DENSITY in CLUSTER. Below,
     this manual uses whichever name the mode under discussion calls for.</p>
 
   <table>
@@ -902,12 +896,12 @@
       <th>SHEPARD (switch up)</th>
     </tr>
     <tr>
-      <td class="k">PHI / CLUSTERS</td>
+      <td class="k">DRIFT / CLUSTERS</td>
       <td>partials per cluster; <b>center = 1, nothing shifts</b>. CCW collapses onto the cluster's low end, CW onto its high end</td>
       <td>glissando <b>rate</b>; center = frozen, CW = rising, CCW = falling</td>
     </tr>
     <tr>
-      <td class="k">WIN DUCK / DENSITY</td>
+      <td class="k">DUCK / DENSITY</td>
       <td>density: how far the collapse goes, 0 at CCW to 0.995 at CW</td>
       <td>ducks the windowed partials; <b>CCW = unity gain</b>, CW = window silent</td>
     </tr>
@@ -923,8 +917,8 @@
     </tr>
   </table>
 
-  <div class="tip"><b>PHI/CLUSTERS is center-neutral in both modes</b>, with a software deadzone at noon. A
-    stock build has no mechanical detent, so trust the sound, not the pointer: at noon nothing shifts and
+  <div class="tip"><b>DRIFT / CLUSTERS is center-neutral in both modes</b>, with a software deadzone at noon. A
+    stock Tap-O-Matic build has no mechanical detent, so trust the sound, not the pointer: at noon nothing shifts and
     nothing glides.
   </div>
 
@@ -1019,9 +1013,10 @@
     </svg>
   </figure>
 
-  <div class="warn"><b>Cluster is the loud mode</b>, and it is compensated for you — see
+  <div class="warn"><b>Cluster is the loud mode</b>. There's a bit of volume compensation to the loudest Cluster patches
+    (when all partials go low and it sounds like a rumble anyway) — see
     <a href="#gain">Levels &amp; gain compensation</a>. If you build a version with the compensation
-    defeated (<code>NO_NORM=1</code>), the density knob swings the level by many dB.
+    defeated (<code>NO_NORM=1</code>), the density knob swings the level by many dB. It'll hit the limiter and probably sound terrible.
   </div>
 
   <h3>SHEPARD</h3>
@@ -1033,14 +1028,18 @@
     name is the wrap, not uniform motion.</p>
 
   <ul class="tight">
-    <li><b>PHI sets the rate</b>, exponential from 0.01 to 10 partials/second, center frozen, CW rising.
-      The illusion holds to roughly half a wrap per second — <b>the usable range is the bottom of the
-        knob</b>. The top of the travel is a zap effect, deliberately.
+    <li><b>DRIFT</b> is a rate of an internal LFO that sweeps φ between 0 and 1.
+      At segment ends φ wraps back around, and the cycle repeats. DRIFT sets that
+      LFO's rate and direction. <b>Center is rate zero</b>, so φ stops where it is; CW means ramp LFO and φ going 0 → 1,
+      CCW means saw and φ going 1 → 0. Either side is exponential from 0.01 to 10
+      partials/second. The illusion holds to roughly half a wrap per second — <b>the usable range is the
+      bottom of the knob</b>. The top of the travel is a zap effect, deliberately.
     </li>
-    <li><b>The CLUSTERS jack is the better driver.</b> Patch a slow ramp LFO into it. The firmware reads
-      the jack's <em>change</em>, not its level, and folds any reset larger than half a wrap back into
-      continuous motion — so the LFO's reset is not a click, and its depth does not have to be tuned
-      to exactly one partial.
+    <li>The <b>PHI CV</b> jack is functionally an offset for φ, before the wrap. The range is -1 → 1, so two full cycles,
+      and you, theoretically, get exactly the same state at ends and in the middle. And, again, in theory, a saw LFO sent to it
+      should give you a smooth continuous glissando. The problem is that neither external LFOs nor analog jacks can be trusted,
+      and there's a good chance that the LFO reset won't land exactly on the same value and you'll get an audible jump.
+      This is why DRIFT is rather a rate of the internal LFO, doing the continuous motion, which you can nudge with the PHI jack.
     </li>
     <li><b>The ends fade.</b> The bank is finite, so a shift leaves nothing at the bottom and pushes one
       off the top. Both ends fade to silence over four partials, keyed to the <em>window</em> rather
@@ -1050,7 +1049,7 @@
     <li><b>ODD ONLY doubles the cycle length:</b> the odd set only lands back on itself after two index
       steps, so a wrap takes twice as long at the same apparent glide speed.
     </li>
-    <li><b>WIN DUCK fades the window out</b>, inverted so the knob at rest (CCW) is unity gain. Sweeping it up
+    <li><b>DUCK fades the window out</b>, inverted so the knob at rest (CCW) is unity gain. Sweeping it up
       fades out just the moving partials and leaves the anchored ones playing.
     </li>
     <li><b>The band edges soften while it glides.</b> Partials slide through the drawn envelope, so a
@@ -1271,12 +1270,12 @@
     </tr>
     <tr>
       <td class="k">CLUSTERS</td>
-      <td>the PHI/CLUSTERS knob</td>
+      <td>the DRIFT / CLUSTERS knob</td>
       <td><b>the exception:</b> CLUSTER sums it with the knob; SHEPARD takes the <em>rate</em> from the knob and moves φ by this jack's <em>change</em></td>
     </tr>
     <tr>
       <td class="k">DENSITY</td>
-      <td>the WIN DUCK/DENSITY knob</td>
+      <td>the DUCK / DENSITY knob</td>
       <td>summed with the knob</td>
     </tr>
     <tr>
@@ -1321,7 +1320,7 @@
       <li>Slider <b>×1</b> up; <b>every other band slider down</b>. That band is the fundamental on its own,
         so what you get is a single sine — no fill, no cluster, nothing to go wrong.
       </li>
-      <li><b>SHIFT at center.</b> This is the one that matters. SHIFT slides the whole chosen shape along
+      <li><b>FORMANT at center.</b> This is the one that matters. FORMANT slides the whole chosen shape along
         the harmonic series, so off center the ×1 band stops sitting on partial 1 — turn it a few hours
         clockwise and partial 2 joins in underneath at half level, which is no longer a sine.
       </li>
@@ -1343,7 +1342,7 @@
       doing nothing at all. This is what the sliders draw on.</p>
     <ul class="tight">
       <li>Left switch <b>down</b> (CLUSTER), <b>CLUSTERS at center</b>, <b>DENSITY fully CCW</b>.</li>
-      <li>All band sliders wherever you want the spectrum; SHIFT at center; INHARM down.</li>
+      <li>All band sliders wherever you want the spectrum; FORMANT at center; INHARM down.</li>
     </ul>
     <p><b>Either of those two knobs at rest switches the other one off.</b> The collapse the mode
       applies is “how many partials per cluster” multiplied by “how far they travel”, so a zero in
@@ -1378,26 +1377,25 @@
       <li>Left switch <b>up</b> (SHEPARD)</li>
       <li>WIN START fully <b>CCW</b> — window starts at partial 1, so everything moves</li>
       <li>WIN SIZE fully <b>CW</b> — window covers the whole bank</li>
-      <li>WIN DUCK fully <b>CCW</b> — unity gain</li>
+      <li>DUCK fully <b>CCW</b> — unity gain</li>
       <li><b>All band sliders up.</b> A drawn hump does <em>not</em> work here: the sliders control fill as
         well as level, so pulling the top band down thins it to one partial instead of fading it. The
         engine fades the ends for you.
       </li>
-      <li><b>PHI just off center.</b> The knob is its own ramp — it sets a glissando rate and the module
+      <li><b>DRIFT just off center.</b> The knob is its own ramp — it sets a glissando rate and the module
         runs it for you, no LFO needed. The usable range is the very bottom of the travel: the illusion
         holds to about half a wrap per second, and above that you hear the individual sweeps and it turns
         into a zap effect.
       </li>
     </ul>
-    <p>Drive it from the knob, not from a cable. The CLUSTERS jack does move φ — it reads the jack's
-      <em>change</em> rather than its level, which is good for hand-shaped or one-shot sweeps — but an
-      external ramp does not hold the endless illusion in practice. Either tilt works; ODD ONLY doubles the
-      cycle length.</p>
+    <p>Drive it from the knob, not from a cable. The PHI jack does move φ, which is good for hand-shaped or one-shot sweeps — but an
+      external ramp does not hold the endless illusion in practice (see the manual section for more info).
+      ODD ONLY doubles the cycle length.</p>
   </div>
 
   <div class="recipe">
     <h3>Skeleton comb</h3>
-    <p>All band sliders at <b>half</b>, SHIFT at <b>center</b>: eight partials, one per band, each at full
+    <p>All band sliders at <b>half</b>, FORMANT at <b>center</b>: eight partials, one per band, each at full
       level — an eight-tooth comb across the whole series, and the clearest way to hear what the bands
       are. ×1 is always the fundamental and ×2 always partial 2; the other six are placed by the FADE
       TILT pots, CCW = the band's <em>highest</em> partial, CW = its <em>lowest</em>.</p>
@@ -1408,7 +1406,7 @@
       than a flaw: a couple of percent above it and each band starts pulling in neighbors, so eight
       partials becomes seventeen. Ride the sliders just under half for the pure comb, just over for a
       comb that is starting to thicken.</p>
-    <p>Now sweep <b>SHIFT</b>. It does more than slide the comb along the series: turned clockwise it
+    <p>Now sweep <b>FORMANT</b>. It does more than slide the comb along the series: turned clockwise it
       packs the comb tighter, so extra harmonics crowd in around each tooth and eight partials grows
       toward twenty; turned counter-clockwise it stretches the comb until some bands have no partial
       near their seed at all and drop out, down to six. Center is the clean eight, one end is a denser
@@ -1453,26 +1451,28 @@
       </tr>
 
       <tr>
-        <td class="k">Silent in SHEPARD with WIN DUCK clockwise</td>
-        <td>That knob is the window duck, and it is inverted: CCW is unity gain, CW mutes the window.</td>
-        <td>WIN DUCK fully CCW. If the window covers the bank, CW mutes everything.</td>
+        <td class="k">Silent in SHEPARD with DUCK clockwise</td>
+        <td>That knob is the duck, and it is inverted: CCW is unity gain, CW mutes the window.</td>
+        <td>DUCK fully CCW. If the window covers the bank, CW mutes everything.</td>
       </tr>
 
       <tr>
         <td class="k">Wrong note in SHEPARD</td>
-        <td>φ is a <em>position</em>, and it survives the PHI detent and a mode switch. Partial 1 then
+        <td>φ is a <em>position</em>, and it survives the DRIFT detent and a mode switch. Partial 1 then
           renders at (1 + φ)·f0 — the bank is frequency-<em>shifted</em>, not transposed, so the partial
           spacing (and the pitch you hear) is still f0 while the lowest partial reads sharp.
         </td>
-        <td>Sweep PHI through a full wrap to park φ back at 0.</td>
+        <td>Move WIN START to the right so that it excludes the fundamental.
+          Alternatively, set DRIFT to the center (so that φ doesn't change by itself), and compensate the
+          current φ with an offset into the PHI CV. A power cycle will also clear φ and set it to 0.</td>
       </tr>
 
       <tr>
-        <td class="k">A band goes quiet as SHIFT moves</td>
-        <td>The seeds sit at fixed points and SHIFT slides the comb past them, so a band with its slider
+        <td class="k">A band goes quiet as FORMANT moves</td>
+        <td>The seeds sit at fixed points and FORMANT slides the comb past them, so a band with its slider
           below half can end up with no partial on its seed.
         </td>
-        <td>Bring the slider above half, or take SHIFT back toward center — where every seed has a partial
+        <td>Bring the slider above half, or take FORMANT back toward center — where every seed has a partial
           exactly on it.
         </td>
       </tr>
@@ -1483,7 +1483,7 @@
           sliding across them do not tick, which lets a neighbor's level bleed into the band's top
           partial.
         </td>
-        <td>Park PHI at center and the edges go hard again. Or set that band's FADE TILT toward CW, so its
+        <td>Park DRIFT at center and the edges go hard again. Or set that band's FILL ORDER toward CW, so its
           surviving partials are the low ones, away from the boundary.
         </td>
       </tr>
@@ -1610,7 +1610,7 @@
         <td>±1 semitone, deadzone at noon</td>
       </tr>
       <tr>
-        <td class="k">SHIFT</td>
+        <td class="k">FORMANT</td>
         <td>±1 octave of envelope/comb position, center neutral</td>
       </tr>
       <tr>

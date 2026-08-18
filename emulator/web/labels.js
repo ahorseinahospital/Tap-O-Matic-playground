@@ -12,7 +12,7 @@
   const labelOf = (t) => (SVG[t] !== undefined ? SVG[t] : t);
 
   // A pot with its own SVG label uses it verbatim; the rest are named after the
-  // group bracket plus their column, e.g. "FADE TILT (LP-BP-HP) BAND 3".
+  // group bracket plus their column, e.g. "FILL ORDER (LP-BP-HP) BAND 3".
   function potLabel(id, col) {
     const own = CTRL.pots.labels && CTRL.pots.labels[id];
     return own ? labelOf(own) : `${labelOf(CTRL.pots.groupLabel)} ${col}`;
