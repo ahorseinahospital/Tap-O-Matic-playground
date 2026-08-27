@@ -1,30 +1,32 @@
 {
   "_comment": [
     "Ties emulator control ids to the panel art. Each value is the id of the",
-    "<tspan> in panel/Foxtail.svg whose text is that control's label. The SVG",
-    "is the source of truth for label text: the emulator reads labels from it,",
-    "and a rename rewrites the tspan (matched by id) then re-renders the PNG.",
-    "Renaming by tspan id (not text) avoids the duplicate-label ambiguity",
-    "(e.g. TIME/SPREAD/FEEDBACK appear in both the knob row and the jack row)."
+    "<tspan> in panel/foxtail/foxtail_panel_v1.1.1.svg whose text is that",
+    "control's label. The SVG is the source of truth for label text: the emulator",
+    "reads labels from it, and a rename rewrites the tspan (matched by id) then",
+    "re-renders the PNG. Renaming by tspan id (not text) avoids the",
+    "duplicate-label ambiguity (Clusters/Density appear on a knob and on a jack).",
+    "A value may also be {shepard, cluster} where the panel prints one legend per",
+    "shaper mode; the UI joins them with ' / '."
   ],
   "sliders": {
-    "amp0": "tspan11124",
-    "amp1": "tspan11144",
-    "amp2": "tspan11164",
-    "amp3": "tspan11184",
-    "amp4": "tspan11204",
-    "amp5": "tspan11224",
-    "amp6": "tspan11244",
-    "amp7": "tspan11264",
-    "amp8": "tspan11284"
+    "amp0": "tspan4",
+    "amp1": "tspan15",
+    "amp2": "tspan6",
+    "amp3": "tspan7",
+    "amp4": "tspan8",
+    "amp5": "tspan9",
+    "amp6": "tspan10",
+    "amp7": "tspan11",
+    "amp8": "tspan12"
   },
   "pots": {
     "_note": "Pots 1-3 are global controls with their own SVG labels, listed in 'labels'. The rest share the group label bracket, and their name is '<group> <column>' with the column taken from the slider label.",
-    "groupLabel": "tspan11331",
+    "groupLabel": "tspan17",
     "labels": {
-      "pan0": "tspan-pot-1",
-      "pan1": "tspan-pot-2",
-      "pan2": "tspan-pot-3"
+      "pan0": "tspan14",
+      "pan1": "tspan5",
+      "pan2": "tspan16"
     },
     "ids": [
       "pan0",
@@ -39,20 +41,20 @@
     ]
   },
   "knobs": {
-    "knob1": "tspan2577",
-    "knob2": "tspan2624",
-    "knob3": "tspan2655",
-    "knob4": "tspan2686",
-    "knob5": "tspan2717"
+    "knob1": "tspan162",
+    "knob2": "tspan156",
+    "knob3": "tspan157",
+    "knob4": { "shepard": "tspan158", "cluster": "tspan165" },
+    "knob5": { "shepard": "tspan159", "cluster": "tspan164" }
   },
   "switches": {
     "switch1": [
-      "tspan4872",
-      "tspan4852"
+      "tspan155",
+      "tspan154"
     ],
     "switch2": [
-      "tspan5679",
-      "tspan5659"
+      "tspan160",
+      "tspan161"
     ],
     "_note": "Each switch has two state labels indexed by CONTROL VALUE: [value 0, value 1]. That is NOT panel order — on this hardware both switches read 1 when UP, so index 1 is the upper legend and index 0 the lower. switch1 = left (0 CLUSTER / 1 SHEPARD), switch2 = right (0 DARK / 1 BRIGHT)."
   },
@@ -60,25 +62,23 @@
     "_note": "Slider CVs have no own SVG label -> '<slider label> CV'. Param CVs and the gate use the bottom jack labels.",
     "sliderCvSuffix": "CV",
     "params": {
-      "knob1": "tspan6539",
-      "knob2": "tspan6398",
-      "knob3": "tspan1441",
-      "knob4": "tspan12420",
-      "knob5": "tspan14818"
+      "knob1": "tspan145",
+      "knob2": "tspan136",
+      "knob3": "tspan146",
+      "knob4": { "shepard": "tspan147", "cluster": "tspan152" },
+      "knob5": { "shepard": "tspan148", "cluster": "tspan151" }
     },
-    "gate": "tspan6445"
+    "gate": "tspan144"
   },
   "io": {
-    "inLeft": "tspan5244",
-    "inRight": "tspan6351",
-    "in": "tspan7342",
-    "outLeft": "tspan5244-8",
-    "outRight": "tspan6351-3",
-    "out": "tspan22114"
+    "_note": "X and Y are the SM's audio inputs — unused by Foxtail, named on the panel so they can be repurposed later.",
+    "inLeft": "tspan153",
+    "inRight": "tspan135",
+    "outLeft": "tspan149",
+    "outRight": "tspan150"
   },
   "panelText": {
-    "title": "tspan1704",
-    "subtitle": "tspan1786",
-    "credits": "tspan5403"
+    "title": "tspan1",
+    "credits": "tspan3"
   }
 }

@@ -11,6 +11,11 @@
 
   const labelOf = (t) => (SVG[t] !== undefined ? SVG[t] : t);
 
+  // A control carries one tspan, or one per shaper mode ({shepard, cluster})
+  // where the panel prints a legend for each.
+  const idsOf = (v) => (typeof v === "string" ? [v] : Object.values(v));
+  const textOf = (v) => idsOf(v).map(labelOf).join(" / ");
+
   // A pot with its own SVG label uses it verbatim; the rest are named after the
   // group bracket plus their column, e.g. "FILL ORDER (LP-BP-HP) BAND 3".
   function potLabel(id, col) {
@@ -32,7 +37,7 @@
     const cols = Object.values(CTRL.sliders).map(labelOf); // column labels
 
     Object.entries(CTRL.sliders).forEach(([id, t]) => setData(id, labelOf(t)));
-    Object.entries(CTRL.knobs).forEach(([id, t]) => setData(id, labelOf(t)));
+    Object.entries(CTRL.knobs).forEach(([id, t]) => setData(id, textOf(t)));
 
     CTRL.pots.ids.forEach((id, i) => setData(id, potLabel(id, cols[i])));
 
@@ -116,9 +121,14 @@
     gk.append(rowEl("lbl-row lbl-head", span("lbl-key", ""),
                     span("lbl-col", "knob"), span("lbl-col", "CV in")));
     Object.entries(CTRL.knobs).forEach(([id, t]) => {
-      const cvT = CTRL.cvInputs.params[id];
-      gk.append(rowEl("lbl-row", span("lbl-key", id),
-                      labelInput(t), cvT ? labelInput(cvT) : span("lbl-na", "—")));
+      const cv = CTRL.cvInputs.params[id];
+      // Mode-split knobs get one row per mode, each with its own jack legend.
+      const modes = typeof t === "string" ? [["", t]] : Object.entries(t);
+      modes.forEach(([mode, kT], i) => {
+        const cvT = !cv ? null : typeof cv === "string" ? (i ? null : cv) : cv[mode];
+        gk.append(rowEl("lbl-row", span("lbl-key", mode ? `${id} ${mode}` : id),
+                        labelInput(kT), cvT ? labelInput(cvT) : span("lbl-na", "—")));
+      });
     });
     gk.append(rowEl("lbl-row", span("lbl-key", "gate"),
                     span("lbl-na", "—"), labelInput(CTRL.cvInputs.gate)));
@@ -148,7 +158,7 @@
     try {
       CTRL = await (await fetch("controls.json")).json();
       await fetchSvgLabels();
-      FT.model = { ctrl: CTRL, labelOf };  // expose model to sources.js
+      FT.model = { ctrl: CTRL, labelOf, textOf };  // expose model to sources.js
       buildEditor();
       FT.sources.buildParamCards();
       FT.sources.buildSliderCvCards();

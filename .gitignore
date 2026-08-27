@@ -3,3 +3,7 @@ build
 
 docs/claude
 CLAUDE.md
+
+.lck
+panel/foxtail/.venv/
+panel/foxtail/trash/

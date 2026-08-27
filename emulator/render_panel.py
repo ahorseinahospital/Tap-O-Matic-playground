@@ -5,41 +5,41 @@ Render the module panel SVG to the PNG the emulator uses as its background.
 Why a raster: browsers substitute fonts on SVG <text>, mangling the panel
 labels. We rasterize once, up front, so the browser just shows a picture.
 
-Pipeline (all in-memory, source SVG untouched):
-  1. Remap the panel's font-family names to a form fontconfig/pango understands
-     (the SVG asks for "Futura Condensed Extra" etc., which fontconfig can't
-     resolve and silently falls back to a wide font, overlapping the labels;
-     "Futura + font-stretch:condensed + weight" selects the real condensed face).
-  2. rsvg-convert the SVG onto a solid background (default black), at exact size
-     — no letterboxing, no clipping.
-  3. Autocrop the uniform background border so 0%/100% == panel edges in the CSS.
+Why Inkscape and not rsvg-convert: the panel sets Fraunces' variable-font axes
+(font-variation-settings: 'opsz' 144, 'wght' 100). librsvg ignores that property
+outright, so labels come out at the default weight *and* the wider text-size
+optical cut, and long ones collide. Inkscape draws exactly what the panel was
+drawn in.
+
+Pipeline:
+  1. Inkscape exports the page onto a solid background (default black).
+  2. Autocrop the uniform background border so 0%/100% == panel edges in the CSS.
 
 Edit the panel SVG, then just re-run:  python3 emulator/render_panel.py
 
-Requirements: rsvg-convert (`brew install librsvg`), python3, Pillow (PIL).
-The fonts referenced by the SVG must exist on the system (macOS ships Futura).
+Requirements: Inkscape, python3, Pillow (PIL), plus the fonts the SVG asks for.
 """
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 from PIL import Image, ImageChops
 
 # ---- Config (tweak freely) -------------------------------------------------
 REPO         = Path(__file__).resolve().parent.parent
-SRC_SVG      = REPO / "panel" / "Foxtail.svg"
+SRC_SVG      = REPO / "panel" / "foxtail" / "foxtail_panel_v1.1.1.svg"
 DST_PNG      = REPO / "emulator" / "web" / "Foxtail.png"
-BG_COLOR     = "#000000"     # background behind the panel (rsvg color + trim)
+BG_COLOR     = "#000000"     # background behind the panel (export color + trim)
 RENDER_WIDTH = 2000          # output width in px before cropping (higher = sharper)
-
-# SVG font-family -> a spec pango can resolve. Add entries if the panel art
-# starts using other fonts. Right side is spliced into the CSS `font` shorthand.
-FONT_REMAP = {
-    "font-family:'Futura Condensed Extra'":
-        "font-family:'Futura';font-stretch:condensed;font-weight:800",
-    "font-family:Futura-CondensedMedium":
-        "font-family:'Futura';font-stretch:condensed;font-weight:500",
-}
+INKSCAPE     = "/Applications/Inkscape.app/Contents/MacOS/inkscape"
 # ---------------------------------------------------------------------------
+
+
+def inkscape_bin() -> str:
+    exe = shutil.which("inkscape") or (INKSCAPE if Path(INKSCAPE).exists() else None)
+    if not exe:
+        raise SystemExit("Inkscape not found — install it or fix INKSCAPE above.")
+    return exe
 
 
 def hex_to_rgb(h: str):
@@ -55,17 +55,15 @@ def trim(im: Image.Image, color, tol: int = 8) -> Image.Image:
 
 
 def main():
-    svg = SRC_SVG.read_text()
-    for old, new in FONT_REMAP.items():
-        svg = svg.replace(old, new)
-
     with tempfile.TemporaryDirectory() as td:
-        tmp_svg = Path(td) / "panel.svg"
-        tmp_svg.write_text(svg)
         out_png = Path(td) / "panel.png"
         subprocess.run(
-            ["rsvg-convert", "-b", BG_COLOR, "--width", str(RENDER_WIDTH),
-             str(tmp_svg), "-o", str(out_png)],
+            [inkscape_bin(), "--export-type=png",
+             f"--export-filename={out_png}",
+             f"--export-width={RENDER_WIDTH}",
+             f"--export-background={BG_COLOR}",
+             "--export-background-opacity=1",
+             str(SRC_SVG)],
             check=True,
         )
         im = trim(Image.open(out_png).convert("RGB"), hex_to_rgb(BG_COLOR))

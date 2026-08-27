@@ -31,7 +31,7 @@ html, body {
 .panel {
   position: relative;
   width: min(520px, 46vw);
-  aspect-ratio: 1161 / 1226; /* Foxtail.png, cropped tight to the panel */
+  aspect-ratio: 1995 / 2107; /* Foxtail.png, cropped tight to the panel */
   background: url("Foxtail.png") center / contain no-repeat;
   border-radius: 6px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);

@@ -236,8 +236,8 @@
     Object.keys(M.ctrl.knobs).forEach((param) => {
       const jackT = M.ctrl.cvInputs.params[param];
       box.append(makeCard({
-        title: jackT ? `${M.labelOf(jackT)} CV` : `${param} CV`,
-        note: `→ ${M.labelOf(M.ctrl.knobs[param])}`,
+        title: jackT ? `${M.textOf(jackT)} CV` : `${param} CV`,
+        note: `→ ${M.textOf(M.ctrl.knobs[param])}`,
         target: param,
         wired: true,
       }));
@@ -287,9 +287,9 @@
       const card = cvCards[i];
       if (!card) return;
       const jackT = M.ctrl.cvInputs.params[param];
-      card.querySelector(".incard-title").textContent = jackT ? `${M.labelOf(jackT)} CV` : `${param} CV`;
+      card.querySelector(".incard-title").textContent = jackT ? `${M.textOf(jackT)} CV` : `${param} CV`;
       const note = card.querySelector(".incard-target");
-      if (note) note.textContent = `→ ${M.labelOf(M.ctrl.knobs[param])}`;
+      if (note) note.textContent = `→ ${M.textOf(M.ctrl.knobs[param])}`;
     });
     const gateCard = cvCards[params.length];
     if (gateCard) gateCard.querySelector(".incard-title").textContent = M.labelOf(M.ctrl.cvInputs.gate);

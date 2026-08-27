@@ -172,7 +172,7 @@
       border: 1px solid var(--rule);
       border-radius: 8px;
       overflow: hidden;
-      background: #eda98a
+      background: #0d0c0b
     }
 
     .panelwrap img {
@@ -181,23 +181,26 @@
       height: auto
     }
 
+    /* panel art is black-and-white, so the markers carry the only colour */
     .hot {
       position: absolute;
       transform: translate(-50%, -50%);
-      width: 1.55em;
-      height: 1.55em;
+      width: 1.85em;
+      height: 1.85em;
       border-radius: 50%;
-      background: #12100e;
-      color: #fff;
-      border: 2px solid #fff;
-      font: 700 .78rem/1.45em ui-monospace, Menlo, monospace;
+      background: #ff8a1f;
+      color: #12100e;
+      border: 2px solid #12100e;
+      font: 700 .78rem/1.3em ui-monospace, Menlo, monospace;
       text-align: center;
       text-decoration: none;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .45)
+      /* white halo keeps the black rim visible against the black panel */
+      box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .85), 0 1px 4px rgba(0, 0, 0, .55)
     }
 
-    .hot:hover {
-      background: var(--accent2)
+    .hot:hover, .hot:focus {
+      background: #fff;
+      outline: none
     }
 
     /* ---- tables ---- */
@@ -354,39 +357,36 @@
     <div class="panelwrap">
       <img src="../emulator/web/Foxtail.png" alt="Foxtail front panel">
       <!-- hotspots: left%/top% measured against the 1161×1226 panel render -->
-      <a class="hot" style="left:7.1%;top:13.1%" href="#cv">1</a>
-      <a class="hot" style="left:7.1%;top:36%" href="#inharm">2</a>
-      <a class="hot" style="left:50%;top:36%" href="#sliders">3</a>
-      <a class="hot" style="left:17.8%;top:57%" href="#globalpots">4</a>
-      <a class="hot" style="left:71.8%;top:57%" href="#fade">5</a>
-      <a class="hot" style="left:11.2%;top:70.5%" href="#pitch">6</a>
-      <a class="hot" style="left:20.6%;top:74.6%" href="#modes">7</a>
-      <a class="hot" style="left:30.8%;top:70.5%" href="#window">8</a>
-      <a class="hot" style="left:50.2%;top:70.5%" href="#window">9</a>
-      <a class="hot" style="left:69.8%;top:70.5%" href="#modes">10</a>
-      <a class="hot" style="left:79.5%;top:74.6%" href="#tilt">11</a>
-      <a class="hot" style="left:89.1%;top:70.5%" href="#modes">12</a>
-      <a class="hot" style="left:35.7%;top:85.5%" href="#tilt">13</a>
-      <a class="hot" style="left:45.2%;top:85.5%" href="#pitch">14</a>
-      <a class="hot" style="left:83.7%;top:85.5%" href="#stereo">15</a>
+      <a class="hot" style="left:7.1%;top:13.1%" href="#cv" title="Slider CV jacks — §12 CV, calibration and limits">12</a>
+      <a class="hot" style="left:7.1%;top:36%" href="#inharm" title="INHARM slider — §4">4</a>
+      <a class="hot" style="left:50%;top:36%" href="#sliders" title="Band sliders ×1…×54 — §2">2</a>
+      <a class="hot" style="left:7%;top:57%" href="#globalpots" title="FORMANT — §5">5</a>
+      <a class="hot" style="left:17.8%;top:57%" href="#globalpots" title="FINE — §5">5</a>
+      <a class="hot" style="left:28.2%;top:57%" href="#stereo" title="STEREO — §10">10</a>
+      <a class="hot" style="left:71.8%;top:57%" href="#fade" title="FILL ORDER (HP–BP–LP) — §3">3</a>
+      <a class="hot" style="left:11.2%;top:70.5%" href="#pitch" title="COARSE pitch — §6">6</a>
+      <a class="hot" style="left:20.6%;top:74.6%" href="#modes" title="CLUSTER / SHEPARD switch — §9">9</a>
+      <a class="hot" style="left:30.8%;top:70.5%" href="#window" title="WIN START — §8">8</a>
+      <a class="hot" style="left:50.2%;top:70.5%" href="#window" title="WIN SIZE — §8">8</a>
+      <a class="hot" style="left:69.8%;top:70.5%" href="#modes" title="DRIFT / CLUSTERS — §9">9</a>
+      <a class="hot" style="left:79.5%;top:74.6%" href="#tilt" title="BRIGHT / DARK switch — §7">7</a>
+      <a class="hot" style="left:89.1%;top:70.5%" href="#modes" title="DUCK / DENSITY — §9">9</a>
+      <a class="hot" style="left:35.7%;top:85.5%" href="#tilt" title="ODD ONLY gate — §7">7</a>
+      <a class="hot" style="left:45.2%;top:85.5%" href="#pitch" title="V/OCT — §6">6</a>
+      <a class="hot" style="left:83.7%;top:85.5%" href="#stereo" title="Stereo outs — §10">10</a>
     </div>
     <figcaption>
-      <b>1</b> slider CV jacks ·
-      <b>2</b> INHARM ·
-      <b>3</b> band sliders ×1…×54 ·
-      <b>4</b> FORMANT / FINE / STEREO ·
-      <b>5</b> FILL ORDER (HP-BP-LP) ·
-      <b>6</b> COARSE pitch ·
-      <b>7</b> CLUSTER / SHEPARD ·
-      <b>8</b> WIN START ·
-      <b>9</b> WIN SIZE ·
-      <b>10</b> DRIFT / CLUSTERS ·
-      <b>11</b> BRIGHT / DARK ·
-      <b>12</b> DUCK / DENSITY ·
-      <b>13</b> ODD ONLY gate ·
-      <b>14</b> V/OCT ·
-      <b>15</b> stereo out.
-      Click a number to jump to its section.
+      Each marker carries the number of the section that explains it — click to jump there.
+      <b>2</b> band sliders ×1…×54 ·
+      <b>3</b> FILL ORDER (HP-BP-LP) ·
+      <b>4</b> INHARM ·
+      <b>5</b> FORMANT and FINE ·
+      <b>6</b> COARSE and V/OCT ·
+      <b>7</b> BRIGHT/DARK and ODD ONLY ·
+      <b>8</b> WIN START and WIN SIZE ·
+      <b>9</b> CLUSTER/SHEPARD and its two knobs ·
+      <b>10</b> STEREO and the outputs ·
+      <b>12</b> slider CV jacks.
     </figcaption>
   </figure>
 
@@ -1674,7 +1674,7 @@
   <hr>
   <p class="small" style="color:var(--muted);font-size:.85rem">
     Foxtail — a Time Machine descendent. Olivia Artz &gt; Harry Richardson &gt; DivKid Discord &gt; DogsizedDragonflies.<br>
-    Panel art: <code>panel/Foxtail.svg</code>. Engine internals and rationale: <code>docs/claude/control-maps.md</code>.
+    Panel art: <code>panel/foxtail/foxtail_panel_v1.1.1.svg</code>. Engine internals and rationale: <code>docs/claude/control-maps.md</code>.
   </p>
 
 </div>

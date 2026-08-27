@@ -337,7 +337,7 @@ bool setControl(const std::string& id, float value) {
 // from it (GET /svg-labels) and rename by rewriting one <tspan> matched by its
 // id, then re-rendering the PNG (POST /label). Paths are relative to WEB_DIR
 // (=.../emulator/web), so they hold regardless of the process CWD.
-std::string svgPath()      { return std::string(WEB_DIR) + "/../../panel/Foxtail.svg"; }
+std::string svgPath()      { return std::string(WEB_DIR) + "/../../panel/foxtail/foxtail_panel_v1.1.1.svg"; }
 std::string renderScript() { return std::string(WEB_DIR) + "/../render_panel.py"; }
 
 std::string readFile(const std::string& path) {
