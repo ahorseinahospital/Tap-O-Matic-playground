@@ -1,5 +1,6 @@
 build
 .idea/
+.DS_Store
 
 docs/claude
 CLAUDE.md
@@ -7,3 +8,4 @@ CLAUDE.md
 .lck
 panel/foxtail/.venv/
 panel/foxtail/trash/
+panel/foxtail/scripts/
